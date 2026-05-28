@@ -21,6 +21,7 @@ fn main() {
     }
 }
 fn main_menu() {
+    println!("\n");
     println!("------- RUST Todo Applications ------- ");
     println!("Press any keys between 1 to 4 to perform action: ");
     println!("1. View All Todos");
