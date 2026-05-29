@@ -1,5 +1,5 @@
 use std::io::{Write, stdin, stdout};
-#[derive(Debug)]
+#[derive(Debug, PartialEq)]
 struct Task {
     task: String,
     is_completed: bool,
@@ -52,7 +52,7 @@ fn add_todo(tasks: &mut Vec<Task>) {
     stdin().read_line(&mut input).expect("Failed to read line");
     println!(">");
     tasks.push(Task {
-        task: input,
+        task: input.trim().to_string(),
         is_completed: false,
     });
 }
@@ -70,5 +70,40 @@ fn edit_todo(tasks: &mut Vec<Task>) {
             tasks[num].is_completed = !tasks[num].is_completed;
         }
         Err(error) => println!("{}", error),
+    }
+}
+#[cfg(test)]
+mod tests {
+    use crate::{Task, add_todo, edit_todo, view_todos};
+
+    #[test]
+    fn test_view_todos() {
+        let mut todos: Vec<Task> = Vec::new();
+        view_todos(&todos);
+    }
+    #[test]
+    fn test_add_todos() {
+        let mut todos: Vec<Task> = Vec::new();
+        add_todo(&mut todos);
+        assert_eq!(
+            todos[0],
+            Task {
+                task: "Reading Book".to_string(),
+                is_completed: false
+            }
+        );
+    }
+    #[test]
+    fn test_edit_todos() {
+        let mut todos: Vec<Task> = Vec::new();
+        add_todo(&mut todos);
+        edit_todo(&mut todos);
+        assert_eq!(
+            todos[0],
+            Task {
+                task: "Reading Book".to_string(),
+                is_completed: true
+            }
+        )
     }
 }
